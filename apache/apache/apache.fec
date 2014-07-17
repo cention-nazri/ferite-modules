@@ -343,7 +343,20 @@ class Request
 	native function remoteIp()
 	{
 		struct apache_ctx *ctx = self->odata;
-		FE_RETURN_VAR( fe_new_str("remote_ip", ctx->r->connection->remote_ip, 0, FE_CHARSET_DEFAULT ) );
+
+		FE_RETURN_VAR( fe_new_str("remote_ip",
+/* 2.3.16 and above use client_ip instead of remote_ip */
+#if (AP_SERVER_MAJORVERSION_NUMBER > 2) \
+    || (AP_SERVER_MAJORVERSION_NUMBER == 2 \
+	&& AP_SERVER_MINORVERSION_NUMBER >= 4) \
+    || (AP_SERVER_MAJORVERSION_NUMBER == 2 \
+	&& AP_SERVER_MINORVERSION_NUMBER == 3 \
+	&& AP_SERVER_PATCHLEVEL_NUMBER >= 16)
+			ctx->r->connection->client_ip,
+#else
+			ctx->r->connection->remote_ip,
+#endif
+			0, FE_CHARSET_DEFAULT ) );
 	}
 
 	/**
