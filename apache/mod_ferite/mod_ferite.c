@@ -180,7 +180,7 @@ static int mod_ferite_module_init(apr_pool_t *pconf, apr_pool_t *plog,
 	
 	FE_APACHE_FNC_START;
 
-#ifdef USE_LIBGC
+#ifdef USE_JEDI
 	argv = malloc(sizeof(char*) * 2);
 	argv[0] = "--fe-use-jedi";
 	argv[1] = NULL;
@@ -198,7 +198,7 @@ static int mod_ferite_module_init(apr_pool_t *pconf, apr_pool_t *plog,
 	ferite_module_add_preload( "embfer" );
 #endif
 
-#ifdef USE_LIBGC
+#ifndef USE_JEDI
 	free(argv);
 #endif
 

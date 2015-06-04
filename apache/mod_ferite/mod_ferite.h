@@ -61,10 +61,10 @@
 #define FE_APACHE_FNC_FINISH
 #endif
 
-#ifdef USE_LIBGC
-#   warning Building anti-libgc support
+#ifndef USE_JEDI
 #	define MFVERSION "mod_ferite/1.1.13c (ferite v" FERITE_VERSION "/libgc)"
 #else
+#   warning Building anti-libgc support
 #	define MFVERSION "mod_ferite/1.1.13c (ferite v" FERITE_VERSION ")"
 #endif
 
